@@ -13,18 +13,9 @@ from django.conf import settings
 
 from .philo import PhiloExporter
 from .notifii import NotifiiExporter
-from .sftp import SFTPUploader
+from .SFTPUploader import SFTPUploader
 
 logger = logging.getLogger(__name__)
-
-uploader_tasks = {
-    "philo": run_philo,
-    "notifii": run_notifii
-}
-
-def run_all():
-    for uploader in uploader_tasks:
-        uploader()
 
 def run_notifii():
     clean_temp()
@@ -37,6 +28,15 @@ def run_philo():
     exporter = PhiloExporter(Path(settings.MEDIA_ROOT))
     exporter.export()
     # upload_data(settings.SFTP["philo"])
+
+uploader_tasks = {
+    "philo": run_philo,
+    "notifii": run_notifii
+}
+
+def run_all():
+    for uploader in uploader_tasks.values():
+        uploader()
 
 
 def clean_temp():

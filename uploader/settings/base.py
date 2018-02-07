@@ -149,11 +149,11 @@ INSTALLED_APPS = (
 #                                         Logging Configuration                                            #
 # ======================================================================================================== #
 
-RAVEN_CONFIG = {
-    # wrong format is used TODO
-    'dsn': get_env_variable('PHILO_SENTRY_DSN'),
-    'tags': {'uploader': 'philo'},
-}
+# RAVEN_CONFIG = {
+#     # wrong format is used TODO
+#     'dsn': get_env_variable('PHILO_SENTRY_DSN'),
+#     'tags': {'uploader': 'philo'},
+# }
 # 'notifii': {
 #         'dsn': get_env_variable('NOTIFII_UPLOADER_SENTRY_DSN'),
 #         'tags': {'uploader': 'notifii'},
