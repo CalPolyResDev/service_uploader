@@ -31,6 +31,10 @@ class PhiloExporter(object):
         self.filepath = filepath
         logger.debug("Philo Exporter initiated. Using directory: {filepath}.".format(filepath=str(filepath.resolve())))
 
+    def export(self):
+        self.export_admins()
+        self.export_residents()
+
     def export_admins(self):
         # Build the path str(date.today()) +
         where = self.filepath.joinpath(ADMIN_FILENAME + '.csv')

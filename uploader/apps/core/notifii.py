@@ -27,6 +27,9 @@ class NotifiiExporter(object):
     def __init__(self, filepath):
         self.filepath = filepath
         logger.debug("Notifii Exporter initiated. Using directory: {filepath}.".format(filepath=str(filepath.resolve())))
+    
+    def export(self):
+        self.export_residents()
 
     def export_residents(self):
         where = self.filepath.joinpath(RESIDENT_FILENAME + '.csv')

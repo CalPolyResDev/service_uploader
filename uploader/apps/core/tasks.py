@@ -11,28 +11,32 @@ from pathlib import Path
 
 from django.conf import settings
 
-import philo
-import notifii
-import SFTPUploader
+from .philo import PhiloExporter
+from .notifii import NotifiiExporter
+from .sftp import SFTPUploader
 
 logger = logging.getLogger(__name__)
 
+uploader_tasks = {
+    "philo": run_philo,
+    "notifii": run_notifii
+}
 
 def run_all():
-    run_philo()
-    run_notifii()
+    for uploader in uploader_tasks:
+        uploader()
 
 def run_notifii():
     clean_temp()
-    exporter = notifii(Path(settings.MEDIA_ROOT))
-    fetch_data(exporter)
-    upload_data(settings.SFTP["notifii"])
+    exporter = NotifiiExporter(Path(settings.MEDIA_ROOT))
+    exporter.export()
+    # upload_data(settings.SFTP["notifii"])
 
 def run_philo():
     clean_temp()
-    exporter = philo(Path(settings.MEDIA_ROOT))
-    fetch_data(exporter)
-    upload_data(settings.SFTP["philo"])
+    exporter = PhiloExporter(Path(settings.MEDIA_ROOT))
+    exporter.export()
+    # upload_data(settings.SFTP["philo"])
 
 
 def clean_temp():
@@ -40,12 +44,6 @@ def clean_temp():
         # Clear all visible files
         if not file_.name.startswith("."):
             file_.unlink()
-
-
-def fetch_data(exporter):
-    # Build files for upload
-    exporter.export_residents()
-    exporter.export_admins()
 
 
 def upload_data(sftp_settings):
