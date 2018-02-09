@@ -1,5 +1,5 @@
 """
-.. module:: philo_uploader.core.tasks
+.. module:: service_uploader.core.tasks
    :synopsis: Philo Uploader Core Asynchronous Tasks.
 
 .. moduleauthor:: Alex Kavanaugh <kavanaugh.development@outlook.com>

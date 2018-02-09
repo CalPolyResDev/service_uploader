@@ -3,7 +3,7 @@
 source /etc/environment
 source /usr/local/bin/virtualenvwrapper.sh
 
-workon philo_uploader_project
+workon service_uploader
 if [ ! -f .update_lock ]; then
     touch .update_lock
     GITOUTPUT=$(git pull 2> /dev/null)

@@ -122,6 +122,7 @@ ADMIN_AD_GROUP = "CN=UH-philo,OU=Websites,OU=UH,OU=Manual,OU=Groups,DC=ad,DC=cal
 # ======================================================================================================== #
 
 # Make this unique, and don't share it with anybody.
+# TODO what is this used for?
 SECRET_KEY = get_env_variable('PHILO_UPLOADER_SECRET_KEY')
 # add secret key for notifii
 
@@ -198,7 +199,7 @@ LOGGING = {
             'handlers': ['console'],
             'propagate': False,
         },
-        'philo_uploader.apps.core.utils': {
+        'service_uploader.apps.core.utils': {
             'level': 'DEBUG',
             'handlers': ['console'],
             'propagate': False,

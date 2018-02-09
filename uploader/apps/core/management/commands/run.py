@@ -1,5 +1,5 @@
 """
-.. module:: philo_uploader.core.management.commands.runall
+.. module:: service_uploader.core.management.commands.runall
    :synopsis: Commands used to run one or all uploaders.
 
 .. moduleauthor:: Alex Kavanaugh <kavanaugh.development@outlook.com>
@@ -15,13 +15,11 @@ class Command(BaseCommand):
     requires_system_checks = True
 
     def add_arguments(self, parser):
-        parser.add_argument("uploader", type=str, required=True)
+        parser.add_argument("uploader", type=str)
 
     def handle(self, *args, **options):
         try:
-            print("Initiating tasks.")
             u = options['uploader']
             uploader_tasks[u]()
-            print("Tasks complete.")
-        except KeyError
+        except KeyError:
             raise CommandError('There is no uploader named "%s"' % u)
