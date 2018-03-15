@@ -2,7 +2,7 @@
 Cron uploader for Philo, Notifiii, etc.
 
 ## Setup
-Make sure an `.env` file containing the contents from `UPLOADER.env` exists at the repo's root dir. (use symlink?)
+Make sure an `.env` file containing the contents from [`UPLOADER.env`](https://code.its.calpoly.edu/projects/UHSC/repos/environment_files/browse/UPLOADER.env) exists at the repo's root dir. (use symlink?)
 
 Then setup the environement:
 ```
