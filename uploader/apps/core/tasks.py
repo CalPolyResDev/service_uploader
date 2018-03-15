@@ -14,6 +14,8 @@ from django.conf import settings
 from .philo import PhiloExporter
 from .notifii import NotifiiExporter
 from .SFTPUploader import SFTPUploader
+from .advocate import AdvocateExporter, SFTPUploaderAdvocate
+from .advocate_models import AdvocateStudentProfile, AdvocateStudentClassSchedule, AdvocateStudentPhoto
 
 logger = logging.getLogger(__name__)
 
@@ -29,9 +31,24 @@ def run_philo():
     exporter.export()
     upload_data(settings.SFTP["philo"])
 
+def run_advocate():
+    # Initiate exporter
+    exporter = AdvocateExporter(Path(settings.MEDIA_ROOT))
+    # Generate querysets
+    profiles = AdvocateStudentProfile.objects.all()
+    class_schedules = AdvocateStudentClassSchedule.objects.all()
+    photos = AdvocateStudentPhoto.objects.all()
+    # Build files for upload
+    exporter.export_model(profiles)
+    exporter.export_model(class_schedules)
+    exporter.export_photo(photos)
+    
+    # upload_data(settings.SFTP["advocate"])
+
 uploader_tasks = {
     "philo": run_philo,
-    "notifii": run_notifii
+    "notifii": run_notifii,
+    "advocate": run_advocate
 }
 
 def run_all():

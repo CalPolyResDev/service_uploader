@@ -99,6 +99,12 @@ SFTP = {
         'PASSWORD': get_env_variable('NOTIFII_SFTP_PASSWORD'),
         'HOST': 'notifii.exavault.com',
         'PORT': '22',
+    },
+    'advocate': {
+        'USER': 'calpolydrop',
+        'PASSWORD': None,  # Using key exchange
+        'HOST': 'calpoly-advocate.symplicity.com',
+        'PORT': '22',
     }
 }
 
