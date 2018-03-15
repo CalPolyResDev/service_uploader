@@ -21,13 +21,13 @@ def run_notifii():
     clean_temp()
     exporter = NotifiiExporter(Path(settings.MEDIA_ROOT))
     exporter.export()
-    # upload_data(settings.SFTP["notifii"])
+    upload_data(settings.SFTP["notifii"])
 
 def run_philo():
     clean_temp()
     exporter = PhiloExporter(Path(settings.MEDIA_ROOT))
     exporter.export()
-    # upload_data(settings.SFTP["philo"])
+    upload_data(settings.SFTP["philo"])
 
 uploader_tasks = {
     "philo": run_philo,

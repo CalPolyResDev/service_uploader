@@ -122,9 +122,7 @@ ADMIN_AD_GROUP = "CN=UH-philo,OU=Websites,OU=UH,OU=Manual,OU=Groups,DC=ad,DC=cal
 # ======================================================================================================== #
 
 # Make this unique, and don't share it with anybody.
-# TODO what is this used for?
-SECRET_KEY = get_env_variable('PHILO_UPLOADER_SECRET_KEY')
-# add secret key for notifii
+SECRET_KEY = get_env_variable('UPLOADER_SECRET_KEY')
 
 # ======================================================================================================== #
 #                                  File/Application Handling Configuration                                 #
@@ -150,15 +148,10 @@ INSTALLED_APPS = (
 #                                         Logging Configuration                                            #
 # ======================================================================================================== #
 
-# RAVEN_CONFIG = {
-#     # wrong format is used TODO
-#     'dsn': get_env_variable('PHILO_SENTRY_DSN'),
-#     'tags': {'uploader': 'philo'},
-# }
-# 'notifii': {
-#         'dsn': get_env_variable('NOTIFII_UPLOADER_SENTRY_DSN'),
-#         'tags': {'uploader': 'notifii'},
-#     }
+RAVEN_CONFIG = {
+    'dsn': get_env_variable('SENTRY_DSN'),
+    'tags': {'uploader': 'service_uploader'},
+}
 
 LOGGING = {
     'version': 1,
