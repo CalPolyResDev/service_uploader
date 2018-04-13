@@ -1,4 +1,7 @@
+import logging
 from paramiko import Transport, SFTPClient
+
+logger = logging.getLogger(__name__)
 
 
 class SFTPUploader(object):
