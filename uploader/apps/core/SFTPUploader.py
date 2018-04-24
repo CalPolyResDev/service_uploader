@@ -30,4 +30,5 @@ class SFTPUploader(object):
             self.connection.remove(path='./{filename}'.format(filename=filename))
         except IOError:
             pass
-        self.connection.put(localpath=local_filepath, remotepath='./{filename}'.format(filename=filename))
+        self.connection.put(localpath=local_filepath,
+                            remotepath='./{filename}'.format(filename=filename))

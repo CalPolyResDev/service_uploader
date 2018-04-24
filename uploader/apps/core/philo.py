@@ -20,9 +20,6 @@ from dwconnector.utils import Resident
 
 logger = logging.getLogger(__name__)
 
-ADMIN_FILENAME = "philo_admin"
-RESIDENT_FILENAME = "usernames_emails"
-
 
 class PhiloExporter(object):
     """Exports data either as a csv for model data or png for photo data."""
@@ -37,7 +34,7 @@ class PhiloExporter(object):
 
     def export_admins(self):
         # Build the path str(date.today()) +
-        where = self.filepath.joinpath(ADMIN_FILENAME + '.csv')
+        where = self.filepath.joinpath(settings.ADMIN_FILENAME + '.csv')
 
         # Build the admin list
         logger.debug("Philo Exporter: Exporting admins. Collecting admin data.")
@@ -60,7 +57,7 @@ class PhiloExporter(object):
         logger.debug("Philo Exporter: Export of admins completed successfully.")
 
     def export_residents(self):
-        where = self.filepath.joinpath(RESIDENT_FILENAME + '.csv')
+        where = self.filepath.joinpath(settings.RESIDENT_FILENAME + '.csv')
 
         # Build the resident list
         logger.debug("Philo Exporter: Exporting residents. Collecting resident data.")
