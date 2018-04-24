@@ -34,12 +34,12 @@ class PhiloExporter(object):
 
     def export_admins(self):
         # Build the path str(date.today()) +
-        where = self.filepath.joinpath(settings.ADMIN_FILENAME + '.csv')
+        where = self.filepath.joinpath(settings.PHILO_ADMIN_FILENAME + '.csv')
 
         # Build the admin list
         logger.debug("Philo Exporter: Exporting admins. Collecting admin data.")
 
-        admin_list = ADGroup(settings.PHILO_ADMIN_AD_GROUP).get_tree_members()
+        admin_list = ADGroup(settings.ADMIN_AD_GROUP).get_tree_members()
 
         logger.debug("Philo Exporter: Exporting admins. Initiating csv write.")
 
