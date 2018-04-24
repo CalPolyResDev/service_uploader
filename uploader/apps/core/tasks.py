@@ -19,17 +19,21 @@ logger = logging.getLogger(__name__)
 
 
 def run_notifii():
-    exporter = NotifiiExporter(Path(settings.MEDIA_ROOT))
-    exporter.export()
     file_list = [settings.PHILO_ADMIN_FILENAME + '.csv',
                  settings.PHILO_RESIDENT_FILENAME + '.csv']
+
+    clean_temp(file_list)
+    exporter = NotifiiExporter(Path(settings.MEDIA_ROOT))
+    exporter.export()
     upload_data(settings.SFTP["notifii"], file_list)
 
 
 def run_philo():
+    file_list = [settings.NOTIFII_RESIDENT_FILENAME + '.csv']
+
+    clean_temp(file_list)
     exporter = PhiloExporter(Path(settings.MEDIA_ROOT))
     exporter.export()
-    file_list = [settings.NOTIFII_RESIDENT_FILENAME + '.csv']
     upload_data(settings.SFTP["philo"], file_list)
 
 
@@ -39,15 +43,14 @@ def run_all():
         "notifii": run_notifii
     }
 
-    clean_temp()
     for uploader in uploader_tasks.values():
         uploader()
 
 
-def clean_temp():
+def clean_temp(file_list):
     for file_ in Path(settings.MEDIA_ROOT).iterdir():
         # Clear all visible files
-        if not file_.name.startswith("."):
+        if file_.name in file_list:
             file_.unlink()
 
 
