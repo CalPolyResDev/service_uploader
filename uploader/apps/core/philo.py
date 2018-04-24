@@ -39,7 +39,7 @@ class PhiloExporter(object):
         # Build the admin list
         logger.debug("Philo Exporter: Exporting admins. Collecting admin data.")
 
-        admin_list = ADGroup(settings.ADMIN_AD_GROUP).get_tree_members()
+        admin_list = ADGroup(settings.PHILO_ADMIN_AD_GROUP).get_tree_members()
 
         logger.debug("Philo Exporter: Exporting admins. Initiating csv write.")
 
@@ -57,7 +57,7 @@ class PhiloExporter(object):
         logger.debug("Philo Exporter: Export of admins completed successfully.")
 
     def export_residents(self):
-        where = self.filepath.joinpath(settings.RESIDENT_FILENAME + '.csv')
+        where = self.filepath.joinpath(settings.PHILO_RESIDENT_FILENAME + '.csv')
 
         # Build the resident list
         logger.debug("Philo Exporter: Exporting residents. Collecting resident data.")

@@ -18,8 +18,6 @@ from dwconnector.utils import Resident
 
 logger = logging.getLogger(__name__)
 
-RESIDENT_FILENAME = "50154"
-
 
 class NotifiiExporter(object):
     """Exports data either as a csv for model data."""
@@ -32,7 +30,7 @@ class NotifiiExporter(object):
         self.export_residents()
 
     def export_residents(self):
-        where = self.filepath.joinpath(RESIDENT_FILENAME + '.csv')
+        where = self.filepath.joinpath(settings.NOTIFII_RESIDENT_FILENAME + '.csv')
 
         # Build the resident list
         logger.debug("Notifii Exporter: Exporting residents. Collecting resident data.")
