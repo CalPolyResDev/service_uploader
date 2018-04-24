@@ -3,7 +3,7 @@ colorama==0.3.9
 cx_Oracle==6.2.1
 termcolor==1.1.0
 paramiko==2.4.1
-raven==6.4.0
+raven==6.7.0
 
 git+ssh://git@code.its.calpoly.edu:7999/phiu/dwconnector.git
 git+https://github.com/fedorareis/ldap-groups.git
