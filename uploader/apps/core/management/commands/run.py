@@ -8,7 +8,8 @@
 
 from django.core.management.base import BaseCommand, CommandError
 
-from ...tasks import uploader_tasks
+from ...tasks import run_philo, run_notifii, run_advocate
+
 
 class Command(BaseCommand):
     help = "Runs specified tasks for this application."
@@ -18,6 +19,12 @@ class Command(BaseCommand):
         parser.add_argument("uploader", type=str)
 
     def handle(self, *args, **options):
+        uploader_tasks = {
+            "philo": run_philo,
+            "notifii": run_notifii,
+            "advocate": run_advocate
+        }
+
         try:
             u = options['uploader']
             uploader_tasks[u]()

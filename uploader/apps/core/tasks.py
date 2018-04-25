@@ -19,17 +19,25 @@ from .advocate_models import AdvocateStudentProfile, AdvocateStudentClassSchedul
 
 logger = logging.getLogger(__name__)
 
+
 def run_notifii():
-    clean_temp()
+    file_list = [settings.NOTIFII_RESIDENT_FILENAME + '.csv']
+
+    clean_temp(file_list)
     exporter = NotifiiExporter(Path(settings.MEDIA_ROOT))
     exporter.export()
-    upload_data(settings.SFTP["notifii"])
+    upload_data(settings.SFTP["notifii"], file_list)
+
 
 def run_philo():
-    clean_temp()
+    file_list = [settings.PHILO_ADMIN_FILENAME + '.csv',
+                 settings.PHILO_RESIDENT_FILENAME + '.csv']
+
+    clean_temp(file_list)
     exporter = PhiloExporter(Path(settings.MEDIA_ROOT))
     exporter.export()
-    upload_data(settings.SFTP["philo"])
+    upload_data(settings.SFTP["philo"], file_list)
+
 
 def run_advocate():
     # Initiate exporter
@@ -45,28 +53,35 @@ def run_advocate():
     
     # upload_data(settings.SFTP["advocate"])
 
-uploader_tasks = {
-    "philo": run_philo,
-    "notifii": run_notifii,
-    "advocate": run_advocate
-}
 
 def run_all():
-    for uploader in uploader_tasks.values():
+    uploader_tasks = [run_philo, run_notifii, run_advocate]
+
+    for uploader in uploader_tasks:
         uploader()
 
 
-def clean_temp():
+def clean_temp(file_list):
     for file_ in Path(settings.MEDIA_ROOT).iterdir():
-        # Clear all visible files
-        if not file_.name.startswith("."):
+        # Clear all files related to the uploader you are running
+        if file_.name in file_list:
             file_.unlink()
 
 
-def upload_data(sftp_settings):
-    uploader = SFTPUploader(sftp_settings)
+def upload_data(sftp_settings, file_list):
+    if settings.DEBUG:
+        stub_uploader(file_list)
+    else:
+        uploader = SFTPUploader(sftp_settings)
 
+        for file_ in Path(settings.MEDIA_ROOT).iterdir():
+            # Upload all visible files
+            if file_.name in file_list:
+                uploader.upload_file(str(file_.resolve()), file_.name)
+
+
+def stub_uploader(file_list):
     for file_ in Path(settings.MEDIA_ROOT).iterdir():
         # Upload all visible files
-        if not file_.name.startswith("."):
-            uploader.upload_file(str(file_.resolve()), file_.name)
+        if file_.name in file_list:
+            print("Uploading " + file_.name)
