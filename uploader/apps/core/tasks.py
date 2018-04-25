@@ -19,8 +19,7 @@ logger = logging.getLogger(__name__)
 
 
 def run_notifii():
-    file_list = [settings.PHILO_ADMIN_FILENAME + '.csv',
-                 settings.PHILO_RESIDENT_FILENAME + '.csv']
+    file_list = [settings.NOTIFII_RESIDENT_FILENAME + '.csv']
 
     clean_temp(file_list)
     exporter = NotifiiExporter(Path(settings.MEDIA_ROOT))
@@ -29,7 +28,8 @@ def run_notifii():
 
 
 def run_philo():
-    file_list = [settings.NOTIFII_RESIDENT_FILENAME + '.csv']
+    file_list = [settings.PHILO_ADMIN_FILENAME + '.csv',
+                 settings.PHILO_RESIDENT_FILENAME + '.csv']
 
     clean_temp(file_list)
     exporter = PhiloExporter(Path(settings.MEDIA_ROOT))
@@ -38,26 +38,33 @@ def run_philo():
 
 
 def run_all():
-    uploader_tasks = {
-        "philo": run_philo,
-        "notifii": run_notifii
-    }
+    uploader_tasks = [run_philo, run_notifii]
 
-    for uploader in uploader_tasks.values():
+    for uploader in uploader_tasks:
         uploader()
 
 
 def clean_temp(file_list):
     for file_ in Path(settings.MEDIA_ROOT).iterdir():
-        # Clear all visible files
+        # Clear all files related to the uploader you are running
         if file_.name in file_list:
             file_.unlink()
 
 
 def upload_data(sftp_settings, file_list):
-    uploader = SFTPUploader(sftp_settings)
+    if settings.DEBUG:
+        stub_uploader(file_list)
+    else:
+        uploader = SFTPUploader(sftp_settings)
 
+        for file_ in Path(settings.MEDIA_ROOT).iterdir():
+            # Upload all visible files
+            if file_.name in file_list:
+                uploader.upload_file(str(file_.resolve()), file_.name)
+
+
+def stub_uploader(file_list):
     for file_ in Path(settings.MEDIA_ROOT).iterdir():
         # Upload all visible files
         if file_.name in file_list:
-            uploader.upload_file(str(file_.resolve()), file_.name)
+            print("Uploading " + file_.name)

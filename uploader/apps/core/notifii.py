@@ -63,4 +63,3 @@ class NotifiiExporter(object):
                 writer.writerow(row)
 
         logger.debug("Notifii Exporter: Export of residents completed successfully.")
-
