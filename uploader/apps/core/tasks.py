@@ -10,6 +10,7 @@ import logging
 from pathlib import Path
 
 from django.conf import settings
+import requests
 
 from .philo import PhiloExporter
 from .notifii import NotifiiExporter
@@ -55,10 +56,16 @@ def run_advocate():
 
 
 def run_all():
-    uploader_tasks = [run_philo, run_notifii, run_advocate]
+    uploader_tasks = {"Philo": run_philo,
+                      "Notifii": run_notifii}
 
-    for uploader in uploader_tasks:
-        uploader()
+    for name, uploader in uploader_tasks.items():
+        try:
+            uploader()
+            log_to_internal(name, True)
+        except Exception as e:
+            logger.exception(name + " : " + type(e).__name__)
+            log_to_internal(name, False)
 
 
 def clean_temp(file_list):
@@ -78,6 +85,15 @@ def upload_data(sftp_settings, file_list):
             # Upload all visible files
             if file_.name in file_list:
                 uploader.upload_file(str(file_.resolve()), file_.name)
+
+
+def log_to_internal(uploader_name, success):
+    url = settings.INTERNAL_URL + 'uploaders/log_upload/'
+    payload = {'uploader':uploader_name,
+               'success': success}
+    r = requests.post(url, data=payload)
+    if r.status_code != 200:
+        logger.exception("Failed to log to Internal")
 
 
 def stub_uploader(file_list):
