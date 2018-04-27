@@ -71,10 +71,12 @@ def upload_data(sftp_settings, file_list):
 
 
 def log_to_internal(uploader_name, success):
-    url = settings.INTERNAL_URL + 'uploaders/log_upload'
+    url = settings.INTERNAL_URL + 'uploaders/log_upload/'
     payload = {'uploader':uploader_name,
                'success': success}
-    requests.post(url, data=payload)
+    r = requests.post(url, data=payload)
+    if r.status_code != 200:
+        logger.exception("Failed to log to Internal")
 
 
 def stub_uploader(file_list):
