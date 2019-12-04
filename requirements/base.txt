@@ -1,7 +1,7 @@
 Django==2.0.4
 colorama==0.3.9
 cx_Oracle==6.2.1
-paramiko==2.4.1
+paramiko==2.7.0
 raven==6.7.0
 requests==2.18.4
 termcolor==1.1.0
